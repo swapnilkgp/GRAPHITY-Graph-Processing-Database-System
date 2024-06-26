@@ -1,0 +1,880 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css"
+        href="http://www.shieldui.com/shared/components/latest/css/light/all.min.css" />
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="styles.css"> -->
+
+    <title>
+        Shortest Distance
+    </title>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav id="navbar">
+        <ul class="navbar-items flexbox-col">
+            <li class="navbar-logo flexbox-left">
+                <a class="navbar-item-inner flexbox">
+                    G
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('home') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="folder-open-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">Home</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('upload_file') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="folder-open-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">All Options</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('metadata_page') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="folder-open-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">Metadata</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('indegree_page') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="folder-open-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">Indegree</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('outdegree_page') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="folder-open-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">Outdegree</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('rank_page') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="chatbubbles-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">PageRank</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('shortest_distance_page') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">Shortest Distance</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('knn_page') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">KNN</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('rank_list_page') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">Rank List</span>
+                </a>
+            </li>
+            <li class="navbar-item flexbox-left">
+                <a class="navbar-item-inner flexbox-left" href="{{ url_for('component_page') }}">
+                    <div class="navbar-item-inner-icon-wrapper flexbox">
+                        <ion-icon name="settings-outline"></ion-icon>
+                    </div>
+                    <span class="link-text">Component</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+
+    <div class="background">
+        <div class="container">
+            <div class="screen">
+                <div class="screen-header">
+                    <div class="screen-header-left">
+                        <div class="screen-header-button close"></div>
+                        <div class="screen-header-button maximize"></div>
+                        <div class="screen-header-button minimize"></div>
+                    </div>
+                    <div class="screen-header-right">
+                        <div class="screen-header-ellipsis"></div>
+                        <div class="screen-header-ellipsis"></div>
+                        <div class="screen-header-ellipsis"></div>
+                    </div>
+                </div>
+                <div class="screen-body">
+                    <div class="screen-body-item left">
+                        <div class="app-title">
+                            <span>SHORTEST DISTANCE</span>
+                            <span>between two nodes</span>
+                        </div>
+                    </div>
+                    <form method="POST">
+                        {{ form.hidden_tag() }}
+                        <div class="screen-body-item">
+                            <div class="app-form">
+                                <div class="app-form-group">
+                                    <input class="app-form-control" placeholder="Node ID 1" value="Node ID 1">
+                                    {{ form.inp1(class="form-control", type="text", placeholder="Node ID 1") }}
+                                </div>
+                                <div class="app-form-group">
+                                    <input class="app-form-control" placeholder="Node ID 2" value="Node ID 2">
+                                    {{ form.inp2(class="form-control", type="text", placeholder="Node ID 2") }}
+                                </div>
+                                <div class="app-form-group buttons">
+                                    <button class="app-form-button">{{ form.submit() }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% if dist!=None %}
+                {% if dist!=-1 %}
+                <h3 style="text-align: center; color: #74c54f;">
+                    Shortest Distance: {{ dist }}
+                </h3>
+                {% else %}
+                <h3 style="text-align: center; color: #74c54f;">
+                    No path found
+                </h3>
+                {% endif %}
+                <h6 style="text-align: center; color: #74c54f;">
+                    Time taken: {{ time }}ms
+                    <br>
+                    Blocks accessed: {{ blocks }}
+                </h6>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</body>
+
+<style>
+    *,
+    *:before,
+    *:after {
+        box-sizing: border-box;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+        background: linear-gradient(to right, #011106 0%, #0c3e03 100%);
+        font-size: 12px;
+    }
+
+    body,
+    button,
+    input {
+        font-family: 'Montserrat', sans-serif;
+        /* font-weight: 700; */
+        letter-spacing: 1.4px;
+    }
+
+    .background {
+        display: flex;
+        min-height: 100vh;
+    }
+
+    .container {
+        flex: 0 1 700px;
+        margin: auto;
+        padding: 10px;
+    }
+
+    .screen {
+        position: relative;
+        background: #3e3e3e;
+        border-radius: 15px;
+    }
+
+    .screen:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 20px;
+        right: 20px;
+        bottom: 0;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, .4);
+        z-index: -1;
+    }
+
+    .screen-header {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px;
+        background: #4d4d4f;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .screen-header-left {
+        margin-right: auto;
+    }
+
+    .screen-header-button {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        margin-right: 3px;
+        border-radius: 8px;
+        background: white;
+    }
+
+    .screen-header-button.close {
+        background: #ed1c6f;
+    }
+
+    .screen-header-button.maximize {
+        background: #e8e925;
+    }
+
+    .screen-header-button.minimize {
+        background: #74c54f;
+    }
+
+    .screen-header-right {
+        display: flex;
+    }
+
+    .screen-header-ellipsis {
+        width: 3px;
+        height: 3px;
+        margin-left: 2px;
+        border-radius: 8px;
+        background: #999;
+    }
+
+    .screen-body {
+        display: flex;
+    }
+
+    .screen-body-item {
+        flex: 1;
+        padding: 50px;
+    }
+
+    .screen-body-item.left {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .app-title {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        color: #ea1d6f;
+        font-size: 26px;
+    }
+
+    .app-title:after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: -10px;
+        width: 25px;
+        height: 4px;
+        background: #ea1d6f;
+    }
+
+    .app-contact {
+        margin-top: auto;
+        font-size: 8px;
+        color: #888;
+    }
+
+    .app-form-group {
+        margin-bottom: 15px;
+    }
+
+    .app-form-group.message {
+        margin-top: 40px;
+    }
+
+    .app-form-group.buttons {
+        margin-bottom: 0;
+        text-align: right;
+    }
+
+    .app-form-control {
+        width: 100%;
+        padding: 10px 0;
+        background: none;
+        border: none;
+        border-bottom: 1px solid #666;
+        color: #ddd;
+        font-size: 14px;
+        text-transform: uppercase;
+        outline: none;
+        transition: border-color .2s;
+    }
+
+    .app-form-control::placeholder {
+        color: #666;
+    }
+
+    .app-form-control:focus {
+        border-bottom-color: #ddd;
+    }
+
+    .app-form-button {
+        background: none;
+        border: none;
+        color: #ea1d6f;
+        font-size: 14px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .app-form-button:hover {
+        color: #b9134f;
+    }
+
+    .credits {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+        color: #ffa4bd;
+        font-family: 'Roboto Condensed', sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+    }
+
+    .credits-link {
+        display: flex;
+        align-items: center;
+        color: #fff;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .dribbble {
+        width: 20px;
+        height: 20px;
+        margin: 0 5px;
+    }
+
+    @media screen and (max-width: 520px) {
+        .screen-body {
+            flex-direction: column;
+        }
+
+        .screen-body-item.left {
+            margin-bottom: 30px;
+        }
+
+        .app-title {
+            flex-direction: row;
+        }
+
+        .app-title span {
+            margin-right: 12px;
+        }
+
+        .app-title:after {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 600px) {
+        .screen-body {
+            padding: 40px;
+        }
+
+        .screen-body-item {
+            padding: 0;
+        }
+    }
+
+
+    :root {
+        --primary: 237, 94%, 81%;
+        --background: 266, 16%, 92%;
+        --background-secondary: 256, 12%, 12%;
+        --background-secondary-dark: 256, 10%, 10%;
+        --background-secondary-light: 257, 11%, 16%;
+        --text-primary: 100, 100%, 100%;
+        /* Colors */
+        --black: 100, 100%, 100%;
+        --white: 100, 100%, 100%;
+        --quite-gray: 0, 0%, 50%;
+        --grooble: 10, 28%, 93%;
+        /* Sizes */
+        --heading-large: 5.6rem;
+        --heading-medium: 3.6rem;
+        --heading-small: 2.4rem;
+        --paragraph: 1.11rem;
+        --navbar-buttons: 2.4rem;
+        /* misc */
+        --transition-main: .175, .685, .32;
+        /* Fonts */
+        --font-main: "Poppins";
+    }
+
+    /* ===========
+    Variabels
+   =========== */
+
+    /* ===============
+    Global Styles
+   =============== */
+
+    *,
+    *::before,
+    *::after {
+        box-sizing: inherit;
+    }
+
+    /* html,
+    body {
+        margin: 0;
+        width: 100%;
+        color: hsl(var(--text-primary));
+        font-family: var(--font-main);
+        background-color: hsl(var(--background));
+        -webkit-font-smoothing: antialiased;
+        scroll-behavior: smooth;
+        box-sizing: border-box;
+    } */
+
+    /* ============
+    Typography
+   ============ */
+
+
+    /* Paragraphs */
+    p {
+        margin: 0;
+        font-size: var(--paragraph);
+    }
+
+    /* Links */
+    a {
+        color: hsla(var(--primary), 1);
+        font-size: var(--paragraph);
+        text-decoration: underline;
+    }
+
+    a:visited {
+        color: hsla(var(--primary), .5);
+    }
+
+    /* =========
+    Buttons
+   ========= */
+
+    button {
+        padding: .8em 1.2em;
+        border: 1px solid hsl(var(--black));
+        background-color: hsl(var(--background));
+        font-size: var(--paragraph);
+        cursor: pointer;
+        outline: none;
+    }
+
+    button:focus {
+        box-shadow:
+            0 0 0 2px hsl(var(--black)),
+            0 0 0 3px hsl(var(--white));
+        border: 1px solid transparent;
+    }
+
+    /* =======
+    Lists
+   ======= */
+
+    ul,
+    ol {
+        margin: 1em 0;
+    }
+
+    /* =======
+    Forms
+   ======= */
+
+    form {
+        margin: 0;
+    }
+
+    fieldset {
+        margin: 0;
+        padding: .5em 0;
+        border: none;
+    }
+
+    input {
+        padding: .8em 1.2em;
+        font-size: var(--paragraph);
+        background-color: hsl(var(--grooble));
+        border: 2px solid hsl(var(--grooble));
+        outline: none;
+    }
+
+    textarea {
+        padding: .8em 1.2em;
+        font-size: var(--paragraph);
+        font-family: var(--font-main);
+        background-color: hsl(var(--grooble));
+        border: 2px solid hsl(var(--grooble));
+        outline: none;
+    }
+
+    input,
+    textarea {
+        transition: all .2s ease-in-out;
+    }
+
+    input:hover,
+    input:focus,
+    textarea:hover,
+    textarea:focus {
+        box-shadow:
+            0 0 0 2px hsl(var(--black)),
+            0 0 0 3px hsl(var(--white));
+        border: 2px solid transparent;
+    }
+
+    select {
+        padding: .8em 1.2em;
+        border: 1px solid hsl(var(--black));
+        font-size: var(--paragraph);
+        outline: none;
+    }
+
+    /* =========
+    Classes
+   ========= */
+
+    /* ================
+    Global classes
+   ================ */
+
+    /* =========
+    Flexbox
+   ========= */
+
+    .flexbox {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flexbox-left {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .flexbox-right {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    /* Columns */
+    .flexbox-col {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flexbox-col-left {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .flexbox-col-left-ns {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .flexbox-col-right {
+        display: flex;
+        justify-content: flex-end;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
+    .flexbox-col-start-center {
+        display: flex;
+        justify-content: flex-start;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Spacings */
+    .flexbox-space-bet {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    /* =========
+    Classes
+   ========= */
+
+    .view-width {
+        width: 70%;
+    }
+
+    /* ========
+    Navbar
+   ======== */
+
+    #navbar {
+        top: 0;
+        padding: 0;
+        width: 5em;
+        height: 100vh;
+        position: fixed;
+        background-color: hsl(var(--background-secondary));
+        transition: width .35s cubic-bezier(var(--transition-main), 1);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    #navbar:hover {
+        width: 16em;
+    }
+
+    #navbar::-webkit-scrollbar-track {
+        background-color: hsl(var(--background-secondary));
+    }
+
+    #navbar::-webkit-scrollbar {
+        width: 8px;
+        background-color: hsl(var(--background-secondary));
+    }
+
+    #navbar::-webkit-scrollbar-thumb {
+        background-color: hsl(var(--primary));
+    }
+
+    .navbar-items {
+        margin: 0;
+        padding: 0;
+        list-style-type: none;
+    }
+
+    /* Navbar Logo */
+    .navbar-logo {
+        margin: 0 0 2em 0;
+        width: 100%;
+        height: 5em;
+        background: hsl(var(--background-secondary-dark));
+    }
+
+    .navbar-logo>.navbar-item-inner {
+        width: calc(5rem - 8px);
+    }
+
+    .navbar-logo>.navbar-item-inner:hover {
+        background-color: transparent;
+    }
+
+    .navbar-logo>.navbar-item-inner>svg {
+        height: 2em;
+        fill: hsl(var(--white));
+    }
+
+    /* Navbar Items */
+    .navbar-item {
+        padding: 0 .5em;
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .navbar-item-inner {
+        padding: 1em 0;
+        width: 100%;
+        position: relative;
+        color: hsl(var(--quite-gray));
+        border-radius: .25em;
+        text-decoration: none;
+        transition: all .2s cubic-bezier(var(--transition-main), 1);
+    }
+
+    .navbar-item-inner:hover {
+        color: hsl(var(--white));
+        background: hsl(var(--background-secondary-light));
+        box-shadow: 0 17px 30px -10px hsla(var(--black), .25);
+    }
+
+    .navbar-item-inner-icon-wrapper {
+        width: calc(5rem - 1em - 8px);
+        position: relative;
+    }
+
+    .navbar-item-inner-icon-wrapper ion-icon {
+        position: absolute;
+        font-size: calc(var(--navbar-buttons) - 1rem);
+    }
+
+    .link-text {
+        margin: 0;
+        width: 0;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        transition: all .35s cubic-bezier(var(--transition-main), 1);
+        overflow: hidden;
+        opacity: 0;
+    }
+
+    #navbar:hover .link-text {
+        width: calc(100% - calc(5rem - 8px));
+        opacity: 1;
+    }
+
+    /* ======
+    Main
+   ====== */
+
+    #main {
+        margin: 0 0 0 5em;
+        min-height: 150vh;
+    }
+
+    #main>h2 {
+        width: 80%;
+        max-width: 80%;
+    }
+
+    #main>p {
+        width: 80%;
+        max-width: 80%;
+    }
+
+    /* =============
+    ::Selectors
+   ============= */
+
+    /* Selection */
+    ::selection {
+        color: hsl(var(--white));
+        background: hsla(var(--primary), .33);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar-track {
+        background-color: hsl(var(--background));
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+        background-color: hsl(var(--background));
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: hsl(var(--primary));
+    }
+
+    /* ===============
+    5. @keyframes
+   =============== */
+
+    /* ==============
+    @media rules
+   ============== */
+
+    @media only screen and (max-width: 1660px) {
+        :root {
+            /* Sizes */
+            --heading-large: 5.4rem;
+            --heading-medium: 3.4rem;
+            --heading-small: 2.2rem;
+        }
+    }
+
+    @media only screen and (max-width: 1456px) {
+        :root {
+            /* Sizes */
+            --heading-large: 5.2rem;
+            --heading-medium: 3.2rem;
+            --heading-small: 2rem;
+        }
+
+        .view-width {
+            width: 80%;
+        }
+    }
+
+    @media only screen and (max-width: 1220px) {
+        .view-width {
+            width: 70%;
+        }
+    }
+
+    @media only screen and (max-width: 1024px) {
+        :root {
+            /* Sizes */
+            --heading-large: 5rem;
+            --heading-medium: 3rem;
+            --heading-small: 1.8rem;
+        }
+
+        .view-width {
+            width: 75%;
+        }
+    }
+
+    @media only screen and (max-width: 756px) {
+        :root {
+            /* Sizes */
+            --heading-large: 4rem;
+            --heading-medium: 2.6rem;
+            --heading-small: 1.6rem;
+            --paragraph: 1rem;
+            --navbar-buttons: 2.2rem;
+        }
+
+        .view-width {
+            width: calc(100% - 5em);
+        }
+    }
+
+    @media only screen and (max-width: 576px) {
+        .view-width {
+            width: calc(100% - 3em);
+        }
+    }
+
+    @media only screen and (max-width: 496px) {}
+</style>
